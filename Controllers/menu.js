@@ -1,5 +1,5 @@
 const AddMenu = require("../models/AddMenu");
-const restaurantLogin = require("../models/restaurantLogin")
+const restaurantDetails = require("../models/restaurantDetails");
 // Function to add a menu item
 const addMenuItem = async (req, res) => {
   const restaurantId = req.params.restaurantId;
@@ -18,7 +18,7 @@ const addMenuItem = async (req, res) => {
     await newMenuItem.save();
 
     // Find the restaurant by ID
-    const restaurant = await restaurantLogin.findOneAndUpdate(
+    const restaurant = await restaurantDetails.findOneAndUpdate(
       { _id: restaurantId },
       { $push: { menu: newMenuItem._id } },
       { new: true } // Return the updated document
@@ -40,7 +40,7 @@ const getMenuItems = async (req, res) => {
 
   try {
     // Find the restaurant by ID
-    const restaurant = await restaurantLogin.findOne({ _id: restaurantId });
+    const restaurant = await restaurantDetails.findOne({ _id: restaurantId });
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }

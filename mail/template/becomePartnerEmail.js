@@ -65,16 +65,17 @@ exports.becomePartnerEmail = () => {
 
 <body>
   <div class="container">
-    <a href="#"><img class="logo" src="https://res.cloudinary.com/dqclqq2jy/image/upload/v1704799159/chat_app/zi0hmoldfzlgql1l65pf.png"
-      alt="E-Swachh Logo"></a>
+    <a href="#">
+    <img class="logo" src="https://res.cloudinary.com/dqclqq2jy/image/upload/v1704799159/chat_app/zi0hmoldfzlgql1l65pf.png"
+    alt="E-Swachh Logo"></a>
     <div class="message">Welcome to the Snackbae</div>
     <div class="body">
       
       <p>thank you for showing interest in snackbae or sales Representative will react out to you at earliest </p><br/>
     
     </div>
-    <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
-      href="mailto:info@snackBAE.com">info@snackbae.com</a>. We are here to help!</div>
+    <div class="support">If you have any questions or need assistance, please feel free to reach out to us at 
+    <a  href="mailto:info@snackBAE.com">info@snackbae.com</a>. We are here to help!</div>
   </div>
 </body>
 

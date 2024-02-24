@@ -1,5 +1,5 @@
 const PayoutMethod = require("../models/PayoutMethod");
-const restaurantLogin = require("../models/restaurantLogin")
+const restaurantDetails = require("../models/restaurantDetails");
 // Controller function to add a new payout method
 const PayooutMethod = async (req, res) => {
   const restaurantId = req.params.restaurantId;
@@ -24,9 +24,9 @@ const PayooutMethod = async (req, res) => {
     });
 
     const newPayout = await payoutmethod.save();
-    const restaurant = await restaurantLogin.findOneAndUpdate(
+    const restaurant = await restaurantDetails.findOneAndUpdate(
       { _id: restaurantId },
-      {   payoutmethod: payoutmethod._id  },
+      { payoutmethod: payoutmethod._id },
       { new: true } // Return the updated document
     );
     if (!restaurant) {
@@ -45,7 +45,7 @@ const getPayoutData = async (req, res) => {
 
   try {
     // Find the restaurant by ID
-    const restaurant = await restaurantLogin.findById(restaurantId);
+    const restaurant = await restaurantDetails.findById(restaurantId);
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }

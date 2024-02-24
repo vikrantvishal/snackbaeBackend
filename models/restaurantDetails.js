@@ -3,13 +3,12 @@ const Schema = mongoose.Schema;
 
 // Define schema for the restaurant details
 const restaurantDetails = new Schema({
+  resturantId:{type:String},
   FSSAInumber: { type: String },
   authorizedMail: { type: String },
   averageCost: { type: String },
   capacity: { type: String },
-
   closingHour: { type: String },
-
   customerContact: { type: String },
   location: { type: String },
   managerContact: { type: String },
@@ -24,9 +23,21 @@ const restaurantDetails = new Schema({
   salesRepresentative: { type: String },
   selectedCategory: { type: [String] },
   selectedCuisine: { type: [String] },
+
+
+  payoutmethod: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "PayoutMethod",
+  },
+    menu:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AddMenu",
+    },
+  ],
 });
 
-// Create model from schema
+
 const RestaurantDetails = mongoose.model(
   "RestaurantDetails",
   restaurantDetails

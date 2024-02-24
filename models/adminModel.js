@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
 const adminSchema = new mongoose.Schema({
   id: { type: String, required: false },
   email: {
     type: String,
-    required: [true, "Email is required!"],
+    required: [true, "Email is required! "],
     unique: true,
   },
   password: {
@@ -16,7 +15,7 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: [true, "Passwords don't match!"],
   },
-  role: {
+  role:{
     type: String,
     enum: ["user", "admin"],
     default: "user",

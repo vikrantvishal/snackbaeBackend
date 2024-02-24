@@ -12,6 +12,7 @@ const galleryRoute = require("./routes/gallery");
 const menuRoute = require("./routes/menu");
 const payoutRoute = require("./routes/payoutMethod");
  const generalRoute = require("./routes/generalinfo");
+ const search = require("./routes/search")
 //database connect
 dbconnect();
 
@@ -30,7 +31,7 @@ app.use("/api", menuRoute);
 app.use("/api", payoutRoute);
 app.use("/api", userRoute);
 app.use("/api", generalRoute);
-
+app.use("/api", search);
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 })

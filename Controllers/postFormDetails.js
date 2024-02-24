@@ -35,10 +35,11 @@ exports.postFormDetails = async (req, res) => {
     // const otp = await otpGenerator.generate(6,{digits:true,upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets: false});
     const otp = await otpGen();
     console.log(otp);
-
+    let resturantId =otp;
     const response = await restaurantDetails.create({
+      resturantId,
       restaurantName,
-      cuisinesServed: selectedCuisine,
+      selectedCuisine,
       location,
       managerContact,
       authorizedMail,
@@ -51,7 +52,7 @@ exports.postFormDetails = async (req, res) => {
       paymentMethods,
       pic,
       salesRepresentative,
-      category: selectedCategory,
+      selectedCategory,
     });
     console.log(req.body.authorizedMail);
 
@@ -70,11 +71,7 @@ exports.postFormDetails = async (req, res) => {
       username: authorizedMail,
       password: hashedPassword,
     });
-    const populatedLogin = await restaurantLogin
-      .findById(restaurantLogin._id)
-      .populate("details")
-      .exec();
-
+    
     const mail = await mailSender(
       authorizedMail,
       "Greetings from SnackBae",
@@ -85,7 +82,6 @@ exports.postFormDetails = async (req, res) => {
       success: true,
       response,
       responseLogin,
-      populatedLogin,
     });
   } catch (err) {
     console.log("error", err);
