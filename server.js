@@ -10,7 +10,7 @@ const userRoute = require("./routes/User")
 const PORT = process.env.PORT || 4000;
 const galleryRoute = require("./routes/gallery");
 const menuRoute = require("./routes/menu");
-const payoutRoute = require("./routes/payout");
+const payoutRoute = require("./routes/payoutMethod");
  const generalRoute = require("./routes/generalinfo");
 //database connect
 dbconnect();

@@ -10,6 +10,8 @@ const {
 // const otpGenerator = require('otp-generator');
 const { otpGen } = require("otp-gen-agent");
 
+
+
 exports.postFormDetails = async (req, res) => {
   try {
     const {
@@ -74,7 +76,7 @@ exports.postFormDetails = async (req, res) => {
       .exec();
 
     const mail = await mailSender(
-      email,
+      authorizedMail,
       "Greetings from SnackBae",
       restaurantLoginEmail(authorizedMail, otp)
     );
