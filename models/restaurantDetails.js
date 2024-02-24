@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define schema for the restaurant details
 const restaurantDetails = new Schema({
-  resturantId:{type:String},
+  resturantId: { type: String },
   FSSAInumber: { type: String },
   authorizedMail: { type: String },
   averageCost: { type: String },
@@ -24,15 +24,20 @@ const restaurantDetails = new Schema({
   selectedCategory: { type: [String] },
   selectedCuisine: { type: [String] },
 
-
   payoutmethod: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "PayoutMethod",
   },
-    menu:[
+  menu: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "AddMenu",
+    },
+  ],
+  gallery: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Gallery",
     },
   ],
 });
