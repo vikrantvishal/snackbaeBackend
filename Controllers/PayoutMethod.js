@@ -12,7 +12,6 @@ const PayooutMethod = async (req, res) => {
     paymentType,
   } = req.body;
 
-
   try {
     const payoutmethod = new PayoutMethod({
       accountNumber,
@@ -39,7 +38,6 @@ const PayooutMethod = async (req, res) => {
   }
 };
 
-
 const getPayoutData = async (req, res) => {
   const restaurantId = req.params.restaurantId;
 
@@ -60,8 +58,6 @@ const getPayoutData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 module.exports = {
   PayooutMethod,

@@ -19,6 +19,4 @@ const AddMenu = new mongoose.Schema({
   },
 });
  
-
-
 module.exports = mongoose.model("AddMenu", AddMenu);

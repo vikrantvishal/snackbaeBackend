@@ -79,7 +79,6 @@ const saveBooking = async (req, res) => {
 //////////////////
 const editBooking = async (req, res) => {
   const id = req.params.id;
-
   try {
     const editedBooking = await Bookings.findByIdAndUpdate(
       {

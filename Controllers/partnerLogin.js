@@ -40,7 +40,6 @@ exports.partnerLogin = async(req,res) => {
             user,
             message:"logged in successfully",
         });
-
     }
     else{
         return res.status(403).json({
