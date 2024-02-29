@@ -62,7 +62,9 @@ exports.postFormDetails = async (req, res) => {
 
     let hashedPassword;
     try {
-      hashedPassword = await bcrypt.hash(otp, 10);
+      const salt = await bcrypt.genSalt(10);
+     hashedPassword = await bcrypt.hash(otp, salt);
+      
     } catch {
       return res.status(500).json({
         success: false,
