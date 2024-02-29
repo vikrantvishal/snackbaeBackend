@@ -101,9 +101,9 @@ const getAllImages = async (req, res) => {
    res.status(400).json({ message: err.message });
  }
 };
+
 const uploadImages = async (req, res) => {
   try {
-    
     let image_url;
     // Extract file paths from uploaded files
     const form = new formidable.IncomingForm();

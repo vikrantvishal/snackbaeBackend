@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const resLogin = new mongoose.Schema({
+  
   details: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "RestaurantDetails",

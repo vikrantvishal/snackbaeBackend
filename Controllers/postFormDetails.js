@@ -30,6 +30,8 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      latitude,
+      longitude,
     } = req.body;
 
     // const otp = await otpGenerator.generate(6,{digits:true,upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets: false});
@@ -53,6 +55,8 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      latitude,
+      longitude,
     });
     console.log(req.body.authorizedMail);
 

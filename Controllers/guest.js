@@ -1,6 +1,6 @@
 const Guests = require("../models/guestmodel");
 
-////////////////////
+///////////////////
 //GET ALL GUESTS //
 ///////////////////
 const getGuests = async (req, res) => {
@@ -14,7 +14,7 @@ const getGuests = async (req, res) => {
 
 /////////////////
 //DELETE GUEST //
-/////////////////
+///////////////// 
 const deleteGuest = async (req, res) => {
   const id = req.params.id;
 

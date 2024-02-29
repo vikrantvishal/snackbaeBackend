@@ -63,7 +63,6 @@ const getMenuItems = async (req, res) => {
   }
 };
 
-
 module.exports = {
   addMenuItem,
   getMenuItems,

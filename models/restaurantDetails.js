@@ -21,8 +21,10 @@ const restaurantDetails = new Schema({
   pic: { type: String },
   restaurantName: { type: String },
   salesRepresentative: { type: String },
-  selectedCategory: { type: [String] },
-  selectedCuisine: { type: [String] },
+  selectedCategory: { type: [Object] },
+  selectedCuisine: { type: [Object] },
+  latitude : { type: Number },
+  longitude : { type:Number },
 
   payoutmethod: {
     type: mongoose.Schema.Types.ObjectId,
