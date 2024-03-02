@@ -28,7 +28,6 @@ const addMenuItem = async (req, res) => {
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
-
     res.status(201).json(newMenuItem);
   } catch (err) {
     res.status(400).json({ message: err.message });

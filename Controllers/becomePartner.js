@@ -1,4 +1,4 @@
-const  becomePartner= require("../models/becomePartner");
+const becomePartner = require("../models/becomePartner");
 
 const becomePartnerDataToDB = async (req, res) => {
   try {
@@ -12,9 +12,9 @@ const becomePartnerDataToDB = async (req, res) => {
     const savedData = await newData.save();
 
     res.status(201).json({
-        success:true,
-        savedData,
-      });
+      success: true,
+      savedData,
+    });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
