@@ -1,5 +1,6 @@
 
 const GeneralInfo = require("../models/Generalinfo");
+const restaurantDetails=require("../models/restaurantDetails")
 
 const addGeneralInfo = async (req, res) => {
   // Handle image upload
@@ -41,6 +42,26 @@ const addGeneralInfo = async (req, res) => {
   });
 };
 
+const getGeneralInfo = async (req, res) => {
+  const restaurantId = req.params.restaurantId;
+
+  try {
+    // Find the restaurant by ID
+    const restaurantInfo = await restaurantDetails.findOne({
+      _id: restaurantId,
+    });
+    if (!restaurantInfo) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    // If restaurant info is found, return it as JSON response
+    res.json(restaurantInfo);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   addGeneralInfo,
+  getGeneralInfo,
 };
