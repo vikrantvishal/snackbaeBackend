@@ -12,65 +12,46 @@ const getBookings = async (req, res) => {
 //////////////////
 // SAVE BOOKING //
 //////////////////
-const saveBooking = async (req, res) => {
-  const { date, time, amount, tables, message, guest } = req.body;
-
-  // Save values from guest object in req.body
-  const name = guest.name;
-  const email = guest.email;
-  const phone = guest.phone;
-
+const createBooking = async (req, res) => {
   try {
-    // Check if guest already exists in db
-    const guestExists = await Guest.findOne({ email });
+    // Extract data from request body
+    const { date, time, numofpeople } = req.body;
 
-    // If guest exists, save booking with guest ID
-    if (guestExists) {
-      const newBooking = new Bookings({
-        date: date,
-        time: time,
-        guest: guestExists._id,
-        amount: amount,
-        tables: tables,
-        message: message,
-      });
-      await newBooking.save();
+    // Extract user ID and restaurant ID from URL parameters
+    const { userId, restaurantId } = req.params;
 
-      // Send email confirmation
-      transport(email, newBooking.date, newBooking.id);
-
-      // Set 200 status and send response
-      res.status(200).send(newBooking);
-    } else {
-      // If guest doesn't exist, create one in db...
-      const newGuest = new Guest({
-        name: name,
-        email: email,
-        phone: phone,
-      });
-      // Save new guest to db
-      await newGuest.save();
-
-      // Create booking
-      const newBooking = new Bookings({
-        date: date,
-        time: time,
-        guest: newGuest._id,
-        amount: amount,
-        tables: tables,
-        message: message,
-      });
-      // And save it
-      await newBooking.save();
-
-      // Send confirmation email to guest
-      transport(email, newBooking.date, newBooking.id);
-
-      // Set 200 status and send response
-      res.status(200).send(newBooking);
+    // Check if the restaurant exists
+    let restaurant = await RestaurantDetails.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
     }
+
+    // Create a new booking
+    const booking = new Booking({
+      user: userId,
+      restaurant: restaurantId,
+      date,
+      time,
+      numofpeople,
+    });
+
+    // Save the booking to the database
+    await booking.save();
+
+    // Update restaurant details to include the booking and return the modified document
+    restaurant = await RestaurantDetails.findByIdAndUpdate(
+      restaurantId,
+      { $push: { bookings: booking._id } },
+      { new: true }
+    );
+
+    // Return success response
+    res
+      .status(201)
+      .json({ message: "Booking created successfully", booking});
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error creating booking:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -198,7 +179,7 @@ const clearBookings = async (req, res) => {
 };
 
 module.exports = {
-  saveBooking,
+  createBooking,
   getBookings,
   editBooking,
   deleteBooking,
