@@ -1,4 +1,4 @@
-exports.bookingConfirmationEmail = ( date, time, numofpeople) => {
+exports.bookingConfirmationEmail = (customerName,date, time, numofpeople) => {
   return `<!DOCTYPE html>
   <html>
   
@@ -56,7 +56,7 @@ exports.bookingConfirmationEmail = ( date, time, numofpeople) => {
       <a href="#"><img class="logo" src="https://res.cloudinary.com/dqclqq2jy/image/upload/v1704799159/chat_app/zi0hmoldfzlgql1l65pf.png" alt="Snackbae Logo"></a>
       <div class="message">Booking Confirmation</div>
       <div class="body">
-        <p>Dear Customer</p>
+        <p>Dear ${customerName}</p>
         <p>We are thrilled to confirm your booking with us! Here are the details:</p>
         <ul>
           <li><strong>Date:</strong> ${date}</li>
