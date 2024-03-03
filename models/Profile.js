@@ -7,14 +7,17 @@ const profileSchema = new mongoose.Schema({
   dateOfBirth: {
     type: String,
   },
-  about: {
+  fullName: {
     type: String,
     trim: true,
   },
-  contactNumber: {
-    type: Number,
-    trim: true,
-  }
+  Anniversary: {
+    type: String,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Profile", profileSchema);
