@@ -13,6 +13,7 @@ const menuRoute = require("./routes/menu");
 const payoutRoute = require("./routes/payoutMethod");
  const generalRoute = require("./routes/generalinfo");
  const search = require("./routes/search")
+ const bookingRoute = require("./routes/bookingRoute");
 //database connect
 dbconnect();
 
@@ -24,7 +25,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/api", bookingRoute)
 app.use("/api", becomePartnerRoute);
 app.use("/api", galleryRoute);
 app.use("/api", menuRoute);
