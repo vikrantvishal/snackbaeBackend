@@ -167,17 +167,17 @@ const deleteBooking = async (req, res) => {
 ////////////////////////
 // EMAIL CANCELLATION //
 ////////////////////////
-const emailCancellation = async (req, res) => {
-  const id = req.params.id;
+// const emailCancellation = async (req, res) => {
+//   const id = req.params.id;
 
-  try {
-    // Find booking in db and delete
-    await Bookings.findById(id).deleteOne();
-    res.status(200);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+//   try {
+//     // Find booking in db and delete
+//     await Bookings.findById(id).deleteOne();
+//     res.status(200);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 
 module.exports = {
