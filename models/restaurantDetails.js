@@ -23,8 +23,8 @@ const restaurantDetails = new Schema({
   salesRepresentative: { type: String },
   selectedCategory: { type: [Object] },
   selectedCuisine: { type: [Object] },
-  latitude : { type: Number },
-  longitude : { type:Number },
+  latitude: { type: Number },
+  longitude: { type: Number },
 
   payoutmethod: {
     type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +40,12 @@ const restaurantDetails = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Gallery",
+    },
+  ],
+  bookings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bookings",
     },
   ],
 });
