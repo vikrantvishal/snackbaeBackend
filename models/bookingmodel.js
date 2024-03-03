@@ -2,16 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const BookingSchema = new Schema({
-  date: { type: String, required: true, default: Date.now },
+  date: { type: String, required: true },
   time: { type: String, required: true },
-  guest: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Guests",
-    required: false,
+    ref: "User",
   },
-  amount: { type: Number, required: true },
-  tables: { type: Number, required: true },
-  message: { type: String, required: false },
+  resturant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RestaurantDetails",
+  },
+  numofpeople: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Bookings", BookingSchema);
