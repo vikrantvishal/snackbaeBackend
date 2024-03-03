@@ -1,5 +1,12 @@
 const Bookings = require("../models/bookingmodel");
+const mailSender = require("../util/mailSender");
+const User =require("../models/User")
 const restaurantDetails = require("../models/restaurantDetails");
+const {
+  bookingConfirmationEmail,
+  editBookingConfirmationEmail,
+} = require("../mail/template/restaurantLoginEmail");
+
 //////////////////////
 // GET ALL BOOKINGS //
 //////////////////////
@@ -43,15 +50,27 @@ const createBooking = async (req, res) => {
       { new: true }
     );
 
+    // Fetch user's profile including email and name
+    const user = await User.findById(userId).populate("additionalDetails");
+    const userProfile = user.additionalDetails;
+    const customerName = userProfile.fullName;
+    const userEmail = userProfile.mail;
+
+    // Send email notification to user
+    const mail = await mailSender(
+      userEmail,
+      "Booking Confirmation",
+      bookingConfirmationEmail(customerName, date, time, numofpeople)
+    );
+
     // Return success response
-    res
-      .status(201)
-      .json({ message: "Booking created successfully", booking});
+    res.status(201).json({ message: "Booking created successfully", booking });
   } catch (error) {
     console.error("Error creating booking:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 //////////////////
 // EDIT BOOKING //
@@ -60,23 +79,35 @@ const editBooking = async (req, res) => {
   try {
     // Extract data from request body
     const { date, time, numofpeople } = req.body;
-
-    // Extract booking ID from URL parameters
     const { bookingId } = req.params;
 
-    // Check if the booking exists
+    // Find the booking to be updated
     let booking = await Bookings.findById(bookingId);
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    // Update the booking details
+    // Update the booking
     booking.date = date;
     booking.time = time;
     booking.numofpeople = numofpeople;
-
-    // Save the updated booking to the database
     await booking.save();
+
+    // Find the restaurant details
+
+    // Fetch user's profile including email and name
+    const user = await User.findById(booking.user).populate(
+      "additionalDetails"
+    );
+    const userEmail = user.additionalDetails.mail;
+    const customerName = user.additionalDetails.fullName;
+
+    // Send email notification to user
+    const mail = await mailSender(
+      userEmail,
+      "Booking Update Confirmation",
+      editBookingConfirmationEmail(customerName, date, time, numofpeople)
+    );
 
     // Return success response
     res.status(200).json({ message: "Booking updated successfully", booking });
@@ -167,17 +198,17 @@ const deleteBooking = async (req, res) => {
 ////////////////////////
 // EMAIL CANCELLATION //
 ////////////////////////
-// const emailCancellation = async (req, res) => {
-//   const id = req.params.id;
+const emailCancellation = async (req, res) => {
+  const id = req.params.id;
 
-//   try {
-//     // Find booking in db and delete
-//     await Bookings.findById(id).deleteOne();
-//     res.status(200);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
+  try {
+    // Find booking in db and delete
+    await Bookings.findById(id).deleteOne();
+    res.status(200);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 
 module.exports = {

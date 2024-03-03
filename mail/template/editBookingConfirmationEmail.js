@@ -1,4 +1,8 @@
-exports.editBookingConfirmationEmail = (date, time, numofpeople) => {
+exports.editBookingConfirmationEmail = (
+  customerName, date,
+  time,
+  numofpeople
+) => {
   return `<!DOCTYPE html>
   <html>
   
@@ -56,7 +60,7 @@ exports.editBookingConfirmationEmail = (date, time, numofpeople) => {
       <a href="#"><img class="logo" src="https://res.cloudinary.com/dqclqq2jy/image/upload/v1704799159/chat_app/zi0hmoldfzlgql1l65pf.png" alt="Snackbae Logo"></a>
       <div class="message">Edit Booking Confirmation</div>
       <div class="body">
-        <p>Dear Customer,</p>
+       <p>Dear ${customerName}</p>
         <p>Your booking details have been successfully updated! Here are the new details:</p>
         <ul>
           <li><strong>Date:</strong> ${date}</li>
