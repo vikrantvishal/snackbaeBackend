@@ -1,7 +1,7 @@
 const Bookings = require("../models/bookingmodel");
 const Guest = require("../models/guestmodel");
 const { transport } = require("../util/utils");
-
+const restaurantDetails = require("../models/restaurantDetails");
 //////////////////////
 // GET ALL BOOKINGS //
 //////////////////////
@@ -21,7 +21,7 @@ const createBooking = async (req, res) => {
     const { userId, restaurantId } = req.params;
 
     // Check if the restaurant exists
-    let restaurant = await RestaurantDetails.findById(restaurantId);
+    let restaurant = await restaurantDetails.findById(restaurantId);
     if (!restaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
     }
@@ -39,7 +39,7 @@ const createBooking = async (req, res) => {
     await booking.save();
 
     // Update restaurant details to include the booking and return the modified document
-    restaurant = await RestaurantDetails.findByIdAndUpdate(
+    restaurant = await restaurantDetails.findByIdAndUpdate(
       restaurantId,
       { $push: { bookings: booking._id } },
       { new: true }
