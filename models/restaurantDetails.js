@@ -50,7 +50,6 @@ const restaurantDetails = new Schema({
   ],
 });
 
-
 const RestaurantDetails = mongoose.model(
   "RestaurantDetails",
   restaurantDetails

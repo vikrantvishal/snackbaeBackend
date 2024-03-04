@@ -29,6 +29,9 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      FSSAInumber,
+      averageCost,
+      openAllDay,
       latitude,
       longitude,
     } = req.body;
@@ -60,6 +63,9 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      FSSAInumber,
+      averageCost,
+      openAllDay,
       latitude,
       longitude,
     });
