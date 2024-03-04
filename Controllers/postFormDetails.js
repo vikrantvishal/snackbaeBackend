@@ -1,5 +1,6 @@
 const restaurantDetails = require("../models/restaurantDetails");
 const restaurantLogin = require("../models/restaurantLogin");
+const becomePartner = require("../models/becomePartner");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../util/mailSender");
@@ -28,6 +29,9 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      FSSAInumber,
+      averageCost,
+      openAllDay,
       latitude,
       longitude,
     } = req.body;
@@ -36,6 +40,12 @@ exports.postFormDetails = async (req, res) => {
     const otp = await otpGen();
     console.log(otp);
     let resturantId =otp;
+
+    const existingPartner = await becomePartner.findOne({ rname : restaurantName });
+    if (existingPartner) {
+      await becomePartner.findOneAndDelete({ rname : restaurantName });
+  }
+
     const response = await restaurantDetails.create({
       resturantId,
       restaurantName,
@@ -53,6 +63,9 @@ exports.postFormDetails = async (req, res) => {
       pic,
       salesRepresentative,
       selectedCategory,
+      FSSAInumber,
+      averageCost,
+      openAllDay,
       latitude,
       longitude,
     });
