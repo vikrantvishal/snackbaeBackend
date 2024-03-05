@@ -9,6 +9,7 @@ const becomePartnerRoute = require("./routes/becomePartner");
 const userRoute = require("./routes/User")
 const PORT = process.env.PORT || 4000;
 const galleryRoute = require("./routes/gallery");
+const merchantRoute = require("./routes/merchantprofile");
 const menuRoute = require("./routes/menu");
 const payoutRoute = require("./routes/payoutMethod");
  const generalRoute = require("./routes/generalinfo");
@@ -33,6 +34,7 @@ app.use("/api", payoutRoute);
 app.use("/api", userRoute);
 app.use("/api", generalRoute);
 app.use("/api", search);
+app.use("/api", merchantRoute);
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 })
