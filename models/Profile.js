@@ -11,12 +11,19 @@ const profileSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  Anniversary: {
+  email:{
+    type: String,
+    required:true,
+  },
+  anniversary: {
     type: String,
   },
   image: {
     type: String,
-    required: true,
+    // required: true,
+  },
+  foodPreference : {
+    type : String,
   },
 });
 
