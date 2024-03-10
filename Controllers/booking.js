@@ -143,6 +143,36 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+const getAllBookingsByRestaurant = async (req, res) => {
+  try {
+   
+    const { restaurantId } = req.params;
+
+ 
+    const restaurant = await restaurantDetails.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    // Retrieve all bookings for the specified restaurant
+    const bookings = await Bookings.find({ restaurant: restaurantId });
+
+    // Check if there are any bookings for the restaurant
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No bookings found for this restaurant" });
+    }
+
+  
+    res.status(200).json({ bookings });
+  } catch (error) {
+    console.error("Error retrieving bookings for restaurant:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 //////////////////////
 // GET AVAILABILITY //
@@ -198,20 +228,21 @@ const deleteBooking = async (req, res) => {
 ////////////////////////
 // EMAIL CANCELLATION //
 ////////////////////////
-const emailCancellation = async (req, res) => {
-  const id = req.params.id;
+// const emailCancellation = async (req, res) => {
+//   const id = req.params.id;
 
-  try {
-    // Find booking in db and delete
-    await Bookings.findById(id).deleteOne();
-    res.status(200);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+//   try {
+//     // Find booking in db and delete
+//     await Bookings.findById(id).deleteOne();
+//     res.status(200);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 
 module.exports = {
+  getAllBookingsByRestaurant,
   createBooking,
   editBooking,
   deleteBooking,
