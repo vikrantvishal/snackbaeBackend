@@ -143,34 +143,25 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+const Booking = require("./models/Booking");
+
 const getAllBookingsByRestaurant = async (req, res) => {
   try {
-   
     const { restaurantId } = req.params;
 
- 
-    const restaurant = await restaurantDetails.findById(restaurantId);
-    if (!restaurant) {
-      return res.status(404).json({ error: "Restaurant not found" });
-    }
+    const bookings = await Booking.find({ restaurant: restaurantId }).populate('user');
 
-    // Retrieve all bookings for the specified restaurant
-    const bookings = await Bookings.find({ restaurant: restaurantId });
-
-    // Check if there are any bookings for the restaurant
     if (bookings.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "No bookings found for this restaurant" });
+      return res.status(404).json({ error: "No bookings found for this restaurant" });
     }
 
-  
     res.status(200).json({ bookings });
   } catch (error) {
     console.error("Error retrieving bookings for restaurant:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 
 
