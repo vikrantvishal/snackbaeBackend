@@ -5,7 +5,7 @@ const restaurantDetails = require("../models/restaurantDetails");
 const {
   bookingConfirmationEmail,
   editBookingConfirmationEmail,
-} = require("../mail/template/restaurantLoginEmail");
+} = require("../mail/template/bookingConfirmationEmail");
 
 //////////////////////
 // GET ALL BOOKINGS //
@@ -34,7 +34,7 @@ const createBooking = async (req, res) => {
     // Create a new booking
     const booking = new Bookings({
       user: userId,
-      restaurant: restaurantId,
+      resturant: restaurantId,
       date,
       time,
       numofpeople,
@@ -54,7 +54,7 @@ const createBooking = async (req, res) => {
     const user = await User.findById(userId).populate("additionalDetails");
     const userProfile = user.additionalDetails;
     const customerName = userProfile.fullName;
-    const userEmail = userProfile.mail;
+    const userEmail = userProfile.email;
 
     // Send email notification to user
     const mail = await mailSender(
@@ -99,7 +99,7 @@ const editBooking = async (req, res) => {
     const user = await User.findById(booking.user).populate(
       "additionalDetails"
     );
-    const userEmail = user.additionalDetails.mail;
+    const userEmail = user.additionalDetails.email;
     const customerName = user.additionalDetails.fullName;
 
     // Send email notification to user
@@ -139,6 +139,32 @@ const deleteBooking = async (req, res) => {
     res.status(200).json({ message: "Booking deleted successfully" });
   } catch (error) {
     console.error("Error deleting booking:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+const getAllBookingsByRestaurant = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+  const bookings = await Bookings.find({ resturant: restaurantId }).populate({
+    path: "user",
+    populate: {
+      path: "additionalDetails",
+      select: "fullName email", // Select the fields you want to populate
+    },
+  });
+
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No bookings found for this restaurant" });
+    }
+
+    res.status(200).json({ bookings });
+  } catch (error) {
+    console.error("Error retrieving bookings for restaurant:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -198,20 +224,21 @@ const deleteBooking = async (req, res) => {
 ////////////////////////
 // EMAIL CANCELLATION //
 ////////////////////////
-const emailCancellation = async (req, res) => {
-  const id = req.params.id;
+// const emailCancellation = async (req, res) => {
+//   const id = req.params.id;
 
-  try {
-    // Find booking in db and delete
-    await Bookings.findById(id).deleteOne();
-    res.status(200);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+//   try {
+//     // Find booking in db and delete
+//     await Bookings.findById(id).deleteOne();
+//     res.status(200);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 
 module.exports = {
+  getAllBookingsByRestaurant,
   createBooking,
   editBooking,
   deleteBooking,
