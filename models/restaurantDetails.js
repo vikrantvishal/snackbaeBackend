@@ -19,7 +19,6 @@ const restaurantDetails = new Schema({
   openingHour: { type: String },
   paymentMethods: { type: [String] },
   pic: { type: String },
-  logo: {type:String},
   restaurantName: { type: String },
   salesRepresentative: { type: String },
   selectedCategory: { type: [Object] },
@@ -47,6 +46,12 @@ const restaurantDetails = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Bookings",
+    },
+  ],
+  payments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Payment",
     },
   ],
 });
