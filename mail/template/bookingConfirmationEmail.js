@@ -63,7 +63,7 @@ exports.bookingConfirmationEmail = (customerName,date, time, numofpeople) => {
           <li><strong>Time:</strong> ${time}</li>
           <li><strong>Number of People:</strong> ${numofpeople}</li>
         </ul>
-        <p>We look forward to welcoming you on ${bookingDetails.date} at ${bookingDetails.time}. If you have any questions or need to make changes to your booking, feel free to contact us.</p>
+        <p>We look forward to welcoming you on ${date} at ${time}. If you have any questions or need to make changes to your booking, feel free to contact us.</p>
         <p>Thank you for choosing us. We can't wait to serve you!</p>
       </div>
       <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
