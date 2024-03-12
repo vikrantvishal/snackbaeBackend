@@ -13,6 +13,7 @@ const BookingSchema = new Schema({
     ref: "RestaurantDetails",
   },
   numofpeople: { type: Number, required: true },
+  occassion: {type:String},
 });
 
 module.exports = mongoose.model("Bookings", BookingSchema);

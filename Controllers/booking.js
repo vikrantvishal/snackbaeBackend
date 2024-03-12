@@ -14,19 +14,21 @@ const {
 //   const bookings = await Bookings.find().populate("guest");
 //   res.status(200).json(bookings);
 // };
+
+
 //////////////////
 // SAVE BOOKING //
 //////////////////
 const createBooking = async (req, res) => {
   try {
     // Extract data from request body
-    const { date, time, numofpeople } = req.body;
+    const { date, time, numofpeople,occassion } = req.body;
 
     // Extract user ID and restaurant ID from URL parameters
     const { userId, restaurantId } = req.params;
 
     // Check if the restaurant exists
-    let restaurant = await restaurantDetails.findById(restaurantId);
+    let restaurant = await restaurantDetails.findOne({_id:restaurantId});
     if (!restaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
     }
@@ -38,6 +40,7 @@ const createBooking = async (req, res) => {
       date,
       time,
       numofpeople,
+      occassion,
     });
 
     // Save the booking to the database
@@ -56,6 +59,7 @@ const createBooking = async (req, res) => {
     const customerName = userProfile.fullName;
     const userEmail = userProfile.email;
 
+
     // Send email notification to user
     const mail = await mailSender(
       userEmail,
@@ -70,7 +74,6 @@ const createBooking = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 //////////////////
 // EDIT BOOKING //
@@ -117,7 +120,6 @@ const editBooking = async (req, res) => {
   }
 };
 
-
 ////////////////////
 // DELETE BOOKING //
 ////////////////////
@@ -142,7 +144,6 @@ const deleteBooking = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 const getAllBookingsByRestaurant = async (req, res) => {
   try {
@@ -169,6 +170,44 @@ const getAllBookingsByRestaurant = async (req, res) => {
   }
 };
 
+
+const getAllBookingsByRestaurantByDate = async (req, res) => {
+  try {
+    const { restaurantId,date } = req.params;
+    const d = new Date(date);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    const day1 = day < 10 ? '0' + day : day;
+    const month1 = month < 10 ? '0' + month : month;
+
+    const dd = day1+'-'+month1+'-'+year;
+
+    // const startOfDay = new Date(year, month - 1, day);
+    // const endOfDay = new Date(year, month - 1, day + 1);
+
+  const bookings = await Bookings.find({ resturant: restaurantId ,date: dd}).populate({
+    path: "user",
+    populate: {
+      path: "additionalDetails",
+      select: "fullName email image", // Select the fields you want to populate
+    },
+  });
+
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No bookings found for this restaurant" });
+    }
+
+    res.status(200).json({ bookings });
+  } catch (error) {
+    console.error("Error retrieving bookings for restaurant:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 //////////////////////
 // GET AVAILABILITY //
@@ -242,6 +281,5 @@ module.exports = {
   createBooking,
   editBooking,
   deleteBooking,
-
-
+  getAllBookingsByRestaurantByDate,
 };
