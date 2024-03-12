@@ -1,4 +1,4 @@
-const Gallery = require("../models/gallery");
+const Gallery = require("../models/Gallery");
 const express = require("express");
 const formidable = require("formidable");
 const restaurantDetails = require("../models/restaurantDetails");
